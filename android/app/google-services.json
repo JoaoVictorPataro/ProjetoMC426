@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "720317836338",
+    "project_id": "safe-neighborhood-e4c50",
+    "storage_bucket": "safe-neighborhood-e4c50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720317836338:android:b2154353fed9d9d47be02b",
+        "android_client_info": {
+          "package_name": "com.safeneighborhood.safe_neighborhood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720317836338-aquci14pblurhrgh48gtn4jhb1veqcp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.safeneighborhood.safe_neighborhood",
+            "certificate_hash": "2853886ec4fb7a43b93d209a1ebc5d58ffdc2d49"
+          }
+        },
+        {
+          "client_id": "720317836338-9p01v3q5ppg68dvrjgratr639of8a3d6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt7uT-d3_7aVzjwJgyg65yfK40pEfB6hc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720317836338-9p01v3q5ppg68dvrjgratr639of8a3d6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
