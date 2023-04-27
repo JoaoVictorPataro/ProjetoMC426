@@ -36,8 +36,9 @@ jobs:
           sdk: "2.19.6"
       # 12
       - name: Get dependencies
-      - run: dart pub get
-      - run: flutter pub get
+        run:  | 
+          dart pub get
+          flutter pub get
 
       # Runs a set of commands using the runners shell
       - name: Start release build
