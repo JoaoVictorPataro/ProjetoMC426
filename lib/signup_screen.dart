@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safe_neighborhood/login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -9,7 +10,7 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Criar conta",
           style: TextStyle(
             fontSize: 22,
@@ -17,49 +18,66 @@ class SignUpScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              "Logar",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginScreen())
+              );
+            },
+          )
+        ],
       ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Nome Completo",
               ),
               validator: (text) {
                 if (text == "") return "Nome inválido";
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "E-mail",
               ),
               keyboardType: TextInputType.emailAddress,
               validator: (text) {
-                if (text == "" || text?.contains("@") == false)
+                if (text == "" || text?.contains("@") == false) {
                   return "E-mail inválido";
+                }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Endereço",
               ),
               validator: (text) {
-                if (text == "") return "Endereço inválida";
+                if (text == "") return "Endereço inválido";
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Senha",
               ),
               obscureText: true,
@@ -67,13 +85,13 @@ class SignUpScreen extends StatelessWidget {
                 if (text == "") return "Senha inválida";
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             SizedBox(
               height: 44.0,
               child: ElevatedButton(
-                child: Text(
+                child: const Text(
                   "Criar conta",
                   style: TextStyle(
                     fontSize: 18.0,

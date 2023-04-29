@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ghj/signup_screen.dart';
+import 'package:safe_neighborhood/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Entrar',
           style: TextStyle(
             fontSize: 22,
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text(
+            child: const Text(
               'Criar conta',
               style: TextStyle(
                 fontSize: 16,
@@ -37,23 +37,24 @@ class LoginScreen extends StatelessWidget {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "E-mail",
               ),
               keyboardType: TextInputType.emailAddress,
               validator: (text) {
-                if (text == "" || text?.contains("@") == false)
+                if (text == "" || text?.contains("@") == false) {
                   return "E-mail inválido";
+                }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Senha",
               ),
               obscureText: true,
@@ -65,20 +66,20 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {},
-                child: Text(
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                child: const Text(
                   "Esqueci minha senha",
                   textAlign: TextAlign.right,
                 ),
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             SizedBox(
               height: 44.0,
               child: ElevatedButton(
-                child: Text(
+                child: const Text(
                   "Entrar",
                   style: TextStyle(
                     fontSize: 18.0,
