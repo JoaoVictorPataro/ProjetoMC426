@@ -1,17 +1,17 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:safe_neighborhood/map.dart';
+import 'package:flutter/material.dart';
 
-Widget createMapScreen() => ChangeNotifierProvider<SimpleMap>(
-      create: (context) => SimpleMap(),
-      child: MaterialApp(
-        home: HomePage(),
-      ),
-    );
+void main() {
+  group('Map page Widget Tests', () {
+    testWidgets("Map should be visible", (WidgetTester tester) async {
+      const Widget mapWidget = MediaQuery(
+          data: MediaQueryData(),
+          child: MaterialApp(home: SimpleMap())
+      );
 
-void main{
-    group('Map page Widget Tests', (){
-        testWidgets('Map should be visible', (tester) async {
-            await tester.pumpWidget(createMapScreen());
-            expect(find.byType(SimpleMap), findsOneWidget);
-        })
-    })
+      await tester.pumpWidget(mapWidget);
+      expect(find.byType(SimpleMap), findsOneWidget);
+    });
+  });
 }
