@@ -1,10 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safe_neighborhood/login_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:safe_neighborhood/map.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
     return ScopedModel<UserModel> (
       model: UserModel(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Safe Neighborhood',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -31,4 +30,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
