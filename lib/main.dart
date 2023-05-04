@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:safe_neighborhood/map.dart';
 
 Future main() async {
+  // inicializa firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen(),
+        home: const LoginScreen(),
       ),
     );
   }
