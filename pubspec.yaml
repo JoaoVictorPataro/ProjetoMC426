@@ -40,6 +40,8 @@ dependencies:
   google_maps_flutter: ^2.0.1
   firebase_storage: ^11.1.1
   firebase_auth: ^4.4.2
+  firebase_core: ^2.10.0
+  scoped_model: ^2.0.0
   provider: ^6.0.5
 
 
