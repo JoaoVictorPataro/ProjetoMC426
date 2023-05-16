@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/login_screen.dart';
+import 'package:safe_neighborhood/map.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:safe_neighborhood/main.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -153,16 +155,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSuccess() {
+  void _onSuccess() async {
     _scaffoldKey.currentState?.showSnackBar(
       const SnackBar(content: Text("Usuário criado com sucesso!"),
       backgroundColor: Colors.blue,
       duration: Duration(seconds: 2),)
     );
-    _emailController.clear();
-    _passwordController.clear();
-    _nameController.clear();
-    _addressController.clear();
+    await Future.delayed(const Duration(seconds: 2));
+    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const SimpleMap()));
   }
 
   void _onFail() {

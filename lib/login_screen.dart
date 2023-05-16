@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:safe_neighborhood/map.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:safe_neighborhood/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:safe_neighborhood/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => SignUpScreen()));
+                      MaterialPageRoute(builder: (context) => const SignUpScreen()));
                 },
               )
             ],
@@ -151,8 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onSuccess() {
-    _emailController.clear();
-    _passwordController.clear();
+    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const SimpleMap()));
   }
 
   void _onFail() {
