@@ -2,3 +2,17 @@
   1. Mapa de ocorrências: os usuários podem cadastrar ocorrências de assaltos que eles sofreram, fazendo uma descrição contendo data, hora, local, objeto roubado e possivelmente uma descrição breve do           assaltante. A partir dessa ocorrência cadastrada, o aplicativo terá um mapa que mostrará uma marcação indicando o local da ocorrência, onde outros usuários poderão clicar para saber o que aconteceu e       se informarem sobre. Em locais com muitos casos, o mapa ficará colorido, ficando vermelho em lugares perigosos.
   2. Estatísticas de ocorrências: uma aba contendo dados sobre ocorrências cadastradas, onde o usuário poderá ver os dados de acordo com sua preferência. A partir disso e dos dados coletados, o aplicativo criará tabelas e gráficos contendo estatísticas sobre os casos, como locais e horários mais perigosos e itens mais visados pelos assaltantes.
   3. Mural com notícias importantes: uma aba que possui um mural onde os usuários poderão publicar e conferir notícias importantes sobre o local onde vivem, como por exemplo reportagens sobre crimes             ocorridos recentemente ou notícias sobre a vizinhança.
+
+
+
+<img src="Imgs/SAquiTemRemedio1.jpg" height="100px"></img>
+<img src="Imgs/SAquiTemRemedio2.jpg" height="100px"></img>
+<img src="Imgs/SAquiTemRemedio3.jpg" height="100px"></img>
+
+<img src="Imgs/SSinespCidadao1.jpg" height="100px"></img>
+
+<img src="Imgs/SVizin1.jpg" height="100px"></img>
+<img src="Imgs/SVizin2.jpg" height="100px"></img>
+<img src="Imgs/SVizin3.jpg" height="100px"></img>
+<img src="Imgs/SVizin4.jpg" height="100px"></img>
+<img src="Imgs/SVizin5.jpg" height="100px"></img>
