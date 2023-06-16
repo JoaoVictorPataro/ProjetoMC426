@@ -1,5 +1,5 @@
 # ProjetoMC426
-O projeto em questão tem como objetivo fazer um sistema de consulta sobre os dados de segurança de Barão Geraldo, exibindo estatísticas de lugares e horários mais e menos seguros.
+O projeto em questão tem como objetivo fazer um sistema de consulta sobre os dados de segurança de Barão Geraldo, exibindo um mapa, centrado no usuário, que mostra zonas mais e menos seguras, bem como estatísticas de lugares e horários com maior e menor segurança.
 
 
 **Integrantes:**
