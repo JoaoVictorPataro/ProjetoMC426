@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/login_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
+import 'package:safe_neighborhood/register_event_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:safe_neighborhood/map.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginScreen(),
+        home: const RegisterEventScreen(),
       ),
     );
   }
