@@ -29,6 +29,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          dividerTheme: DividerThemeData (
+            color: Colors.grey[200],
+            space: 65.0,
+            thickness: 2.0,
+            indent: 50.0,
+            endIndent: 50.0
+          ),
         ),
         home: const FeedHistoryScreen(),
       ),
