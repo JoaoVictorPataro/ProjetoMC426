@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:safe_neighborhood/event_screen.dart';
+import 'main.dart';
 import 'models/Event.dart';
 
 class EventTile extends StatelessWidget {
@@ -20,6 +21,9 @@ class EventTile extends StatelessWidget {
           ],
         ),
       ),
+      onTap: () {
+        navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) => EventScreen(event)));
+      },
     );
   }
 }

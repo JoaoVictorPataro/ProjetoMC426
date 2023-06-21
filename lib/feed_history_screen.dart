@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/models/Event.dart';
-
-import 'EventTile.dart';
+import 'event_tile.dart';
 
 class FeedHistoryScreen extends StatefulWidget {
   const FeedHistoryScreen({Key? key}) : super(key: key);
