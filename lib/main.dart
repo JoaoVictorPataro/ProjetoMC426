@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safe_neighborhood/feed_history_screen.dart';
 import 'package:safe_neighborhood/login_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginScreen(),
+        home: const FeedHistoryScreen(),
       ),
     );
   }
