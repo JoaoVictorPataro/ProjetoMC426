@@ -14,6 +14,7 @@ class _FeedHistoryScreenState extends State<FeedHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
         centerTitle: true,
@@ -33,11 +34,14 @@ class _FeedHistoryScreenState extends State<FeedHistoryScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           else {
-            return ListView.builder(
-              itemCount: snapshot.data?.docs.length,
-              itemBuilder: (context, index) {
-                return EventTile(Event.fromDocument(snapshot.data!.docs[index]));
-              }
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 0),
+              child: ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    return EventTile(Event.fromDocument(snapshot.data!.docs[index]));
+                  }
+              ),
             );
           }
         },

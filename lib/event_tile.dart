@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:safe_neighborhood/event_screen.dart';
 import 'main.dart';
 import 'models/Event.dart';
@@ -11,14 +12,35 @@ class EventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Card(
-        child: Column(
-          children: [
-            Text(event.description),
-            Text(event.type),
-            Text(event.dateTime.toString()),
-            Text("${event.location.latitude} ${event.location.longitude}"),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
+        child: Card(
+          elevation: 2.0,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+                  child: Text(event.type,
+                    style: TextStyle(
+                        color: Colors.blue[700],
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+                  child: Text("${DateFormat("dd/MM/yyyy").format(event.dateTime)}",
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       onTap: () {
