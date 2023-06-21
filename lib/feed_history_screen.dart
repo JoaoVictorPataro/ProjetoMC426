@@ -28,7 +28,7 @@ class _FeedHistoryScreenState extends State<FeedHistoryScreen> {
         ),
       ),
       body: FutureBuilder<QuerySnapshot> (
-        future: FirebaseFirestore.instance.collection("events").get(),
+        future: FirebaseFirestore.instance.collection("events").orderBy("date-time", descending: true).get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
