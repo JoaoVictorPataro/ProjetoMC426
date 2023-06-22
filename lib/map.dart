@@ -1,8 +1,13 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:safe_neighborhood/map.dart';
+import 'package:safe_neighborhood/models/Event.dart';
 
 class SimpleMap extends StatefulWidget {
   const SimpleMap({Key? key}) : super(key: key);
@@ -22,8 +27,6 @@ class SimpleMapState extends State<SimpleMap> {
 
   Future<void> onMapCreated(GoogleMapController controller) async {
     _controller = controller;
-    String v = await DefaultAssetBundle.of(context).loadString('assets/map_style.json');
-    _controller.setMapStyle(v);
   }
 
   void _currentLocation() async {
@@ -37,29 +40,43 @@ class SimpleMapState extends State<SimpleMap> {
     ));
   }
 
-  Set<Marker> _createMarker() {
-    return {
-      Marker(
-        markerId: MarkerId("marker_1"),
-        position: _kMapCenter,
-        infoWindow: InfoWindow(title: 'Marker 1'),
-      ),
-      // Marker(
-      // markerId: MarkerId('marker_2'),
-      //  position: LatLng(18.997962200185533, 72.8379758747611),
-      // ),
-    };
+  Set<Circle> circleList = {};
+  Set<Marker> markerList = {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // initialize loadData method
+    _loadData();
   }
 
-  Set<Circle> _createCircleAreas() {
-    return {
-      Circle(
-        circleId: CircleId('circle_1'),
-        center: _kMapCenter,
-        radius: 400,
-        fillColor: Color.fromARGB(25, 255, 0, 0)
-      ),
-    };
+  void _loadData() async {
+    int i = 0;
+    FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
+      querySnapshot.docs.forEach((element) {
+        Event e = Event.fromDocument(element);
+
+        circleList.add(Circle(
+            circleId: CircleId(i.toString()),
+            center: LatLng(e.location.latitude, e.location.longitude),
+            radius: 600,
+            fillColor: Color.fromARGB(25, 255, 0, 0)
+        ));
+
+        markerList.add(Marker(
+          markerId: MarkerId(i.toString()),
+          position: LatLng(e.location.latitude, e.location.longitude),
+          infoWindow: InfoWindow(title: e.description),
+
+          onTap: (){
+
+          }
+        ));
+
+        i += 1;
+      })
+    });
   }
 
   @override
@@ -75,8 +92,8 @@ class SimpleMapState extends State<SimpleMap> {
             initialCameraPosition: _kInitialPosition,
             onMapCreated: onMapCreated,
             myLocationEnabled: true,
-            markers: _createMarker(),
-            circles: _createCircleAreas(),
+            markers: Set<Marker>.of(markerList),
+            circles:  Set<Circle>.of(circleList),
           ),
           // align it to the bottom center, you can try different options too (e.g topLeft,centerLeft)
           Align(
