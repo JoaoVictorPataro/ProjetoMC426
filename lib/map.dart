@@ -1,12 +1,7 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:safe_neighborhood/map.dart';
 import 'package:safe_neighborhood/models/Event.dart';
 
 class SimpleMap extends StatefulWidget {
@@ -95,7 +90,6 @@ class SimpleMapState extends State<SimpleMap> {
             markers: Set<Marker>.of(markerList),
             circles:  Set<Circle>.of(circleList),
           ),
-          // align it to the bottom center, you can try different options too (e.g topLeft,centerLeft)
           Align(
             alignment: Alignment.topRight,
             // add your floating action button
