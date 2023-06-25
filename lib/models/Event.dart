@@ -1,5 +1,4 @@
 import 'dart:core';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
@@ -8,6 +7,8 @@ class Event {
   late DocumentReference user;
   late DateTime dateTime;
   late GeoPoint location;
+
+  Event();
 
   Event.fromDocument(QueryDocumentSnapshot snapshot) {
     description = snapshot.get("description");

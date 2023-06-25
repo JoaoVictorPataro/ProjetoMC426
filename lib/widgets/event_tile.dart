@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_neighborhood/event_screen.dart';
-import 'main.dart';
-import 'models/Event.dart';
+import '../main.dart';
+import '../models/Event.dart';
 
 class EventTile extends StatelessWidget {
   final Event event;

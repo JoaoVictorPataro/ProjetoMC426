@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:safe_neighborhood/map.dart';
 import 'package:safe_neighborhood/models/Event.dart';
+import 'package:safe_neighborhood/models/event_model.dart';
+import 'package:safe_neighborhood/widgets/map_widget.dart';
 
 class EventScreen extends StatelessWidget {
   final Event event;
@@ -95,10 +96,24 @@ class EventScreen extends StatelessWidget {
             const SizedBox(
               height: 16.0,
             ),
-            /*Container(
-              height: 356.0,
-              child: const SimpleMap(),
-            ),*/
+            Expanded(
+              child: FutureBuilder<Event>(
+                future: EventModel.getEventByLocation(event.location),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  else {
+                    List<Event> events = [];
+                    events.add(snapshot.data ?? Event());
+                    return SizedBox(
+                      height: 600.0,
+                      child: MapWidget(events: events),
+                    );
+                  }
+                }
+              )
+            )
           ],
         ),
       ),

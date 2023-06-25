@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -85,7 +84,7 @@ class UserModel extends Model {
 
   Future<Null> _loadCurrentUser() async {
     // tenta obter usuario logado no momento
-    firebaseUser = await _auth.currentUser!;
+    firebaseUser = await _auth.currentUser;
 
     if (firebaseUser != null) {
       if (userData["name"] == null) {
