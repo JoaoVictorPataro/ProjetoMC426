@@ -44,6 +44,8 @@ dependencies:
   firebase_core: ^2.10.0
   scoped_model: ^2.0.0
   provider: ^6.0.5
+  intl: ^0.18.1
+  location: ^4.4.0
 
 
 dev_dependencies:
