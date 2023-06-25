@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:safe_neighborhood/map.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
-import 'package:map_location_picker/map_location_picker.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -16,10 +17,8 @@ class RegisterEventScreen extends StatefulWidget {
 
 class _RegisterEventScreenState extends State<RegisterEventScreen> {
   final docs = FirebaseFirestore.instance;
-  
+
   final _descriptionController = TextEditingController();
-  final _latController = TextEditingController();
-  final _longController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
@@ -27,6 +26,9 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
   final _types = ["Roubo", "Furto"];
   String _currentSelectedValue = "Roubo";
   DateTime _dateTime = DateTime.now();
+
+  final Set<Marker> _markers = {};
+  GeoPoint? _gp;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +54,14 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
             }
 
             return Form(
-                key: _formKey,
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 28.0, 16.0, 16.0),
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16.0, 28.0, 16.0, 16.0),
-                  children: <Widget>[
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
                     TextFormField(
                       controller: _descriptionController,
                       decoration: const InputDecoration(
@@ -118,58 +124,22 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                         );
                       },
                     ),
-                    /*const SizedBox(
+                    const SizedBox(
                       height: 28.0,
                     ),
                     SizedBox(
-                      height: 44.0,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepOrangeAccent,
-                        ),
-                        child: const Text(
-                          "Selecionar Local",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () {
-                          MapLocationPicker();
+                      height: 300.0,
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(target: LatLng(-22.9064, -47.0616), zoom: 15.0, tilt: 0, bearing: 0),
+                        myLocationEnabled: true,
+                        onTap: (LatLng latLng) {
+                          _gp = GeoPoint(latLng.latitude, latLng.longitude);
+                          _markers.add(Marker(markerId: MarkerId('mark'), position: latLng));
+                          setState(() {});
                         },
+                        markers: Set<Marker>.of(_markers),
                       ),
-                    ),*/
-                    const SizedBox(
-                      height: 28.0,
-                    ),
-                    TextFormField(
-                      controller: _latController,
-                      decoration: const InputDecoration(
-                        hintText: "Latitude",
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (text) {
-                        if (text == "") return "Adicione uma latitude";
-                      },
-                    ),
-                    const SizedBox(
-                      height: 28.0,
-                    ),
-                    TextFormField(
-                      controller: _longController,
-                      decoration: const InputDecoration(
-                        hintText: "Longitude",
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (text) {
-                        if (text == "") return "Adicione uma longitude";
-                      },
                     ),
                     const SizedBox(
                       height: 28.0,
@@ -186,21 +156,31 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState?.validate() == true) {
-                            if (model.isLoggedIn()) {
-                              try {
-                                docs.collection('events').add({
-                                  "description": _descriptionController.text,
-                                  "type": _currentSelectedValue,
-                                  "user": docs.collection('users').doc(
-                                      model.firebaseUser?.uid ?? ""),
-                                  "date-time": _dateTime,
-                                  "location": GeoPoint(
-                                      double.parse(_latController.text),
-                                      double.parse(_longController.text)),
-                                });
-                                _onSuccess();
-                              } catch (error) {
-                                _onFail();
+                            if (_gp == null) {
+                              _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+                                content: Text("Selecione uma localização no mapa",
+                                  style: TextStyle(
+                                      color: Colors.black
+                                  ),),
+                                backgroundColor: Colors.yellow,
+                                duration: Duration(seconds: 3),
+                              ));
+                            }
+                            else {
+                              if (model.isLoggedIn()) {
+                                try {
+                                  docs.collection('events').add({
+                                    "description": _descriptionController.text,
+                                    "type": _currentSelectedValue,
+                                    "user": docs.collection('users').doc(
+                                        model.firebaseUser?.uid ?? ""),
+                                    "date-time": _dateTime,
+                                    "location": _gp,
+                                  });
+                                  _onSuccess();
+                                } catch (error) {
+                                  _onFail();
+                                }
                               }
                             }
                           }
@@ -209,6 +189,7 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                     ),
                   ],
                 )
+              )
             );
           },
         ),
@@ -216,13 +197,14 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
     );
   }
 
-  void _onSuccess() {
-    _clearForm();
+  void _onSuccess() async {
     _scaffoldKey.currentState?.showSnackBar(
         const SnackBar(content: Text("Ocorrência cadastrada com sucesso!"),
           backgroundColor: Colors.green,
           duration: Duration(seconds: 2),)
     );
+    await Future.delayed(const Duration(seconds: 2));
+    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const SimpleMap()));
   }
 
   void _onFail() {
@@ -231,11 +213,5 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
           backgroundColor: Colors.redAccent,
           duration: Duration(seconds: 2),)
     );
-  }
-
-  void _clearForm() {
-    _descriptionController.clear();
-    _latController.clear();
-    _longController.clear();
   }
 }
