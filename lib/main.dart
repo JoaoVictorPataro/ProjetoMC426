@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/feed_history_screen.dart';
+import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/login_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:safe_neighborhood/register_event_screen.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             endIndent: 50.0
           ),
         ),
-        home: const FeedHistoryScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

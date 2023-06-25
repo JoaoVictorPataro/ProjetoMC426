@@ -38,10 +38,11 @@ class _MapWidgetState extends State<MapWidget> {
     int i = 0;
     for (var e in widget.events) {
       circleList.add(Circle(
-          circleId: CircleId(i.toString()),
-          center: LatLng(e.location.latitude, e.location.longitude),
-          radius: 600,
-          fillColor: const Color.fromARGB(25, 255, 0, 0)
+        circleId: CircleId(i.toString()),
+        center: LatLng(e.location.latitude, e.location.longitude),
+        radius: 600,
+        fillColor: const Color.fromARGB(25, 255, 0, 0),
+        strokeWidth: 0
       ));
 
       markerList.add(Marker(

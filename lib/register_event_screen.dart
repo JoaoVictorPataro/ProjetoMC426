@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/map.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
@@ -204,7 +205,7 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
           duration: Duration(seconds: 2),)
     );
     await Future.delayed(const Duration(seconds: 2));
-    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const SimpleMap()));
+    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
   }
 
   void _onFail() {

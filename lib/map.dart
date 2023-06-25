@@ -38,25 +38,18 @@ class SimpleMapState extends State<SimpleMap> {
   Set<Circle> circleList = {};
   Set<Marker> markerList = {};
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // initialize loadData method
-    _loadData();
-  }
-
-  void _loadData() async {
+  Future<void> _loadData() async {
     int i = 0;
-    FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
+    await FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
       querySnapshot.docs.forEach((element) {
         Event e = Event.fromDocument(element);
 
         circleList.add(Circle(
-            circleId: CircleId(i.toString()),
-            center: LatLng(e.location.latitude, e.location.longitude),
-            radius: 600,
-            fillColor: Color.fromARGB(25, 255, 0, 0)
+          circleId: CircleId(i.toString()),
+          center: LatLng(e.location.latitude, e.location.longitude),
+          radius: 600,
+          fillColor: const Color.fromARGB(25, 255, 0, 0),
+          strokeWidth: 0
         ));
 
         markerList.add(Marker(
@@ -76,33 +69,33 @@ class SimpleMapState extends State<SimpleMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mapa'),
-      ),
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _kInitialPosition,
-            onMapCreated: onMapCreated,
-            myLocationEnabled: true,
-            markers: Set<Marker>.of(markerList),
-            circles:  Set<Circle>.of(circleList),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            // add your floating action button
-            child: Padding (
-              padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton.extended(
-                onPressed: _currentLocation,
-                label: Text('Ir para minha localização'),
-              ),
+    return Stack(
+      children: <Widget>[
+        FutureBuilder(
+          future: _loadData(),
+          builder: (context, snapshot) {
+            return GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kInitialPosition,
+              onMapCreated: onMapCreated,
+              myLocationEnabled: true,
+              markers: Set<Marker>.of(markerList),
+              circles:  Set<Circle>.of(circleList),
+            );
+          },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          // add your floating action button
+          child: Padding (
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              onPressed: _currentLocation,
+              label: const Text('Ir para minha localização'),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
