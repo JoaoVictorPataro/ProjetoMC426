@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +18,9 @@ class UserModel extends Model {
 
     _loadCurrentUser();
   }
+
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
 
   void signUp({required Map<String, dynamic> userData, required String password, required VoidCallback onSuccess, required VoidCallback onFail}) {
     isLoading = true;

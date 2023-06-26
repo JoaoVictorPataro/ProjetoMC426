@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onSuccess() {
-    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+    navigatorKey.currentState?.pop();
   }
 
   void _onFail() {

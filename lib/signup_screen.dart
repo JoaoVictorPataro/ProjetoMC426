@@ -162,7 +162,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       duration: Duration(seconds: 2),)
     );
     await Future.delayed(const Duration(seconds: 2));
-    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+    navigatorKey.currentState?.pop();
   }
 
   void _onFail() {

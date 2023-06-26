@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/map.dart';
+import 'package:safe_neighborhood/register_event_screen.dart';
 import 'package:safe_neighborhood/widgets/custom_drawer.dart';
 
 import 'feed_history_screen.dart';
@@ -27,6 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
             title: const Text('Mapa'),
           ),
           body: const SimpleMap(),
+          drawer: CustomDrawer(pageController: _pageController),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Cadastrar Ocorrência'),
+          ),
+          body: const RegisterEventScreen(),
           drawer: CustomDrawer(pageController: _pageController),
         ),
         Scaffold(

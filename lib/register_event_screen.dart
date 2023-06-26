@@ -3,7 +3,7 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safe_neighborhood/home_screen.dart';
-import 'package:safe_neighborhood/map.dart';
+import 'package:safe_neighborhood/login_screen.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
@@ -36,18 +36,6 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
     return ScaffoldMessenger(
       key: _scaffoldKey,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
-          centerTitle: true,
-          title: const Text(
-            'Cadastrar Ocorrência',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
         body: ScopedModelDescendant<UserModel>(
           builder: (context, child, model) {
             if (model.isLoading) {
@@ -101,7 +89,6 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                         return InputDecorator(
                           decoration: InputDecoration(
                               errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 16.0),
-                              hintText: 'Please select expense',
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
                           isEmpty: _currentSelectedValue == '',
                           child: DropdownButtonHideUnderline(
@@ -132,11 +119,11 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                       height: 300.0,
                       child: GoogleMap(
                         mapType: MapType.normal,
-                        initialCameraPosition: CameraPosition(target: LatLng(-22.9064, -47.0616), zoom: 15.0, tilt: 0, bearing: 0),
+                        initialCameraPosition: const CameraPosition(target: LatLng(-22.9064, -47.0616), zoom: 15.0, tilt: 0, bearing: 0),
                         myLocationEnabled: true,
                         onTap: (LatLng latLng) {
                           _gp = GeoPoint(latLng.latitude, latLng.longitude);
-                          _markers.add(Marker(markerId: MarkerId('mark'), position: latLng));
+                          _markers.add(Marker(markerId: const MarkerId('mark'), position: latLng));
                           setState(() {});
                         },
                         markers: Set<Marker>.of(_markers),
@@ -148,42 +135,47 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                     SizedBox(
                       height: 44.0,
                       child: ElevatedButton(
-                        child: const Text(
-                          "Cadastrar",
-                          style: TextStyle(
+                        child: Text(
+                          UserModel.of(context).isLoggedIn() ? "Cadastrar" : "Entre para cadastrar ocorrência",
+                          style: const TextStyle(
                             fontSize: 18.0,
                             color: Colors.white,
                           ),
                         ),
                         onPressed: () {
-                          if (_formKey.currentState?.validate() == true) {
-                            if (_gp == null) {
-                              _scaffoldKey.currentState?.showSnackBar(const SnackBar(
-                                content: Text("Selecione uma localização no mapa",
-                                  style: TextStyle(
-                                      color: Colors.black
-                                  ),),
-                                backgroundColor: Colors.yellow,
-                                duration: Duration(seconds: 3),
-                              ));
-                            }
-                            else {
-                              if (model.isLoggedIn()) {
-                                try {
-                                  docs.collection('events').add({
-                                    "description": _descriptionController.text,
-                                    "type": _currentSelectedValue,
-                                    "user": docs.collection('users').doc(
-                                        model.firebaseUser?.uid ?? ""),
-                                    "date-time": _dateTime,
-                                    "location": _gp,
-                                  });
-                                  _onSuccess();
-                                } catch (error) {
-                                  _onFail();
+                          if (UserModel.of(context).isLoggedIn()) {
+                            if (_formKey.currentState?.validate() == true) {
+                              if (_gp == null) {
+                                _scaffoldKey.currentState?.showSnackBar(const SnackBar(
+                                  content: Text("Selecione uma localização no mapa",
+                                    style: TextStyle(
+                                        color: Colors.black
+                                    ),),
+                                  backgroundColor: Colors.yellow,
+                                  duration: Duration(seconds: 3),
+                                ));
+                              }
+                              else {
+                                if (model.isLoggedIn()) {
+                                  try {
+                                    docs.collection('events').add({
+                                      "description": _descriptionController.text,
+                                      "type": _currentSelectedValue,
+                                      "user": docs.collection('users').doc(
+                                          model.firebaseUser?.uid ?? ""),
+                                      "date-time": _dateTime,
+                                      "location": _gp,
+                                    });
+                                    _onSuccess();
+                                  } catch (error) {
+                                    _onFail();
+                                  }
                                 }
                               }
                             }
+                          }
+                          else {
+                            navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => const LoginScreen()));
                           }
                         },
                       ),

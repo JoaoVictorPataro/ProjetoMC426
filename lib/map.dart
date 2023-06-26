@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:safe_neighborhood/event_screen.dart';
+import 'package:safe_neighborhood/main.dart';
 import 'package:safe_neighborhood/models/Event.dart';
 
 class SimpleMap extends StatefulWidget {
@@ -58,7 +60,7 @@ class SimpleMapState extends State<SimpleMap> {
           infoWindow: InfoWindow(title: e.description),
 
           onTap: (){
-
+            navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
           }
         ));
 

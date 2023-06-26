@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:safe_neighborhood/login_screen.dart';
+import 'package:safe_neighborhood/models/user_model.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../main.dart';
 import 'drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -46,29 +50,41 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                       left: 0,
                       bottom: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Olá,",
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text("Entre ou cadastre-se >",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold
+                      child: ScopedModelDescendant<UserModel> (
+                        builder: (context, child, model) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Olá, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
+                                style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
-                            ),
-                            onTap: () {
-
-                            },
-                          )
-                        ],
-                      ),
+                              GestureDetector(
+                                child: Text(!model.isLoggedIn() ? "Entre ou cadastre-se >" : "Sair",
+                                  style: TextStyle(
+                                      color: Colors.blue[600],
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                onTap: () {
+                                  if (!model.isLoggedIn()) {
+                                    navigatorKey?.currentState?.pop();
+                                    navigatorKey.currentState?.push(
+                                        MaterialPageRoute(builder: (
+                                            _) => const LoginScreen()));
+                                  }
+                                  else {
+                                    model.signOut();
+                                  }
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      )
                     ),
                   ],
                 ),
@@ -79,8 +95,9 @@ class CustomDrawer extends StatelessWidget {
                 indent: 20.0,
               ),
               DrawerTile(icon: Icons.map, text: "Mapa", pageController: pageController, page: 0,),
-              DrawerTile(icon: Icons.list, text: "Feed", pageController: pageController, page: 1,),
-              DrawerTile(icon: Icons.query_stats, text: "Estatísticas", pageController: pageController, page: 2,)
+              DrawerTile(icon: Icons.add, text: "Cadastrar Ocorrência", pageController: pageController, page: 1,),
+              DrawerTile(icon: Icons.list, text: "Feed", pageController: pageController, page: 2,),
+              DrawerTile(icon: Icons.query_stats, text: "Estatísticas", pageController: pageController, page: 3,)
             ],
           ),
         ],

@@ -13,7 +13,7 @@ class EventScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[700],
+        backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
           'Ocorrência',
