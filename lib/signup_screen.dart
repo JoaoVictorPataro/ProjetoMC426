@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/login_screen.dart';
-import 'package:safe_neighborhood/map.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:safe_neighborhood/main.dart';
@@ -162,7 +162,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       duration: Duration(seconds: 2),)
     );
     await Future.delayed(const Duration(seconds: 2));
-    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const SimpleMap()));
+    navigatorKey.currentState?.pop();
   }
 
   void _onFail() {

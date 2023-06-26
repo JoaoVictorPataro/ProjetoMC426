@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:safe_neighborhood/map.dart';
+import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
-import 'package:safe_neighborhood/register_event_screen.dart';
 import 'package:safe_neighborhood/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:safe_neighborhood/main.dart';
@@ -154,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onSuccess() {
-    navigatorKey.currentState?.pushReplacement(MaterialPageRoute(builder: (_) => const RegisterEventScreen()));
+    navigatorKey.currentState?.pop();
   }
 
   void _onFail() {

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:safe_neighborhood/event_screen.dart';
+import 'package:safe_neighborhood/main.dart';
 import 'package:safe_neighborhood/models/Event.dart';
 
 class SimpleMap extends StatefulWidget {
@@ -38,25 +40,18 @@ class SimpleMapState extends State<SimpleMap> {
   Set<Circle> circleList = {};
   Set<Marker> markerList = {};
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // initialize loadData method
-    _loadData();
-  }
-
-  void _loadData() async {
+  Future<void> _loadData() async {
     int i = 0;
-    FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
+    await FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
       querySnapshot.docs.forEach((element) {
         Event e = Event.fromDocument(element);
 
         circleList.add(Circle(
-            circleId: CircleId(i.toString()),
-            center: LatLng(e.location.latitude, e.location.longitude),
-            radius: 600,
-            fillColor: Color.fromARGB(25, 255, 0, 0)
+          circleId: CircleId(i.toString()),
+          center: LatLng(e.location.latitude, e.location.longitude),
+          radius: 600,
+          fillColor: const Color.fromARGB(25, 255, 0, 0),
+          strokeWidth: 0
         ));
 
         markerList.add(Marker(
@@ -65,7 +60,7 @@ class SimpleMapState extends State<SimpleMap> {
           infoWindow: InfoWindow(title: e.description),
 
           onTap: (){
-
+            navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
           }
         ));
 
@@ -76,33 +71,33 @@ class SimpleMapState extends State<SimpleMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mapa'),
-      ),
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _kInitialPosition,
-            onMapCreated: onMapCreated,
-            myLocationEnabled: true,
-            markers: Set<Marker>.of(markerList),
-            circles:  Set<Circle>.of(circleList),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            // add your floating action button
-            child: Padding (
-              padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton.extended(
-                onPressed: _currentLocation,
-                label: Text('Ir para minha localização'),
-              ),
+    return Stack(
+      children: <Widget>[
+        FutureBuilder(
+          future: _loadData(),
+          builder: (context, snapshot) {
+            return GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kInitialPosition,
+              onMapCreated: onMapCreated,
+              myLocationEnabled: true,
+              markers: Set<Marker>.of(markerList),
+              circles:  Set<Circle>.of(circleList),
+            );
+          },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          // add your floating action button
+          child: Padding (
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              onPressed: _currentLocation,
+              label: const Text('Ir para minha localização'),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
