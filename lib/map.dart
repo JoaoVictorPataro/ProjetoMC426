@@ -37,72 +37,36 @@ class SimpleMapState extends State<SimpleMap> {
     ));
   }
 
-  Set<Circle> Circles() {
-    return {
-      Circle(
-          circleId: CircleId("circle_1"),
-          center: LatLng(-22.9064, -47.0616), // novamente, considerando a latitude e longitude dos eventos ocorridos
-          radius: 600,
-          fillColor: Color.fromARGB(25, 255, 0, 0)
-      ),
-      Circle(
-          circleId: CircleId("circle_2"),
-          center: LatLng(-22.9062, -47.0616), // novamente, considerando a latitude e longitude dos eventos ocorridos
-          radius: 600,
-          fillColor: Color.fromARGB(25, 255, 0, 0)
-      ),
-    };
-  }
-
-  Set<Marker> Markers() {
-    return {
-      Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(-22.9064, -47.0616),
-        infoWindow: InfoWindow(title: "Title of my ocurence"),
-      ),
-      Marker(
-        markerId: MarkerId("2"),
-        position: LatLng(-22.9062, -47.0616),
-      ),
-    };
-  }
-
   Set<Circle> circleList = {};
   Set<Marker> markerList = {};
 
-  Future<void> _readFirebaseEventsAndCreateLists() async {
+  Future<void> _loadData() async {
     int i = 0;
-    GeoPoint location;
-    // inicia instância do Firebase e recupera os dados
     await FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
       querySnapshot.docs.forEach((element) {
-        // lê eventos do banco de dados e adiciona eles na lista de areas circulares
-        location = element.get("location");
+        Event e = Event.fromDocument(element);
+
         circleList.add(Circle(
             circleId: CircleId(i.toString()),
-            center: LatLng(location.latitude, location.longitude), // novamente, considerando a latitude e longitude dos eventos ocorridos
+            center: LatLng(e.location.latitude, e.location.longitude),
             radius: 600,
-            fillColor: Color.fromARGB(25, 255, 0, 0)
+            fillColor: const Color.fromARGB(25, 255, 0, 0),
+            strokeWidth: 0
         ));
 
-        // ao mesmo tempo, adiciona marcadores na lista de marcadores
         markerList.add(Marker(
             markerId: MarkerId(i.toString()),
-            position: LatLng(location.latitude, location.longitude), // novamente, considerando a latitude e longitude dos eventos ocorridos
-            infoWindow: InfoWindow(title: element.get("description")),
+            position: LatLng(e.location.latitude, e.location.longitude),
+            infoWindow: InfoWindow(title: e.description),
 
             onTap: (){
-
+              navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
             }
         ));
 
-        // ao final somamos 1 no indice de areas circulares e marcadores
         i += 1;
       })
     });
-
-    //ao final do metodo todos os dados estao carregados nas listas, que serao passadas para o mapa como parametros para que sejam desenhadas no mapa
   }
 
   @override
@@ -110,7 +74,7 @@ class SimpleMapState extends State<SimpleMap> {
     return Stack(
       children: <Widget>[
         FutureBuilder(
-          future: _readFirebaseEventsAndCreateLists(),
+          future: _loadData(),
           builder: (context, snapshot) {
             return GoogleMap(
               mapType: MapType.normal,

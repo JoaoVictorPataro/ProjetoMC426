@@ -25,7 +25,7 @@ class _FeedHistoryScreenState extends State<FeedHistoryScreen> {
             child: ListView.builder(
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  return EventTile(Event.fromDocument(snapshot.data!.docs[index].get("description"), snapshot.data!.docs[index].get("type"), snapshot.data!.docs[index].get("user"), snapshot.data!.docs[index].get("date-time"), snapshot.data!.docs[index].get("location")));
+                  return EventTile(Event.fromDocument(snapshot.data!.docs[index]));
                 }
             ),
           );

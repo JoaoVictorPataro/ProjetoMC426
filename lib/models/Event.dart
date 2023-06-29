@@ -10,11 +10,11 @@ class Event {
 
   Event();
 
-  Event.fromDocument(String _desc, String _type, DocumentReference _user, DateTime _date, GeoPoint _location) {
-    description = _desc;
-    type = _type;
-    user = _user;
-    dateTime = _date;
-    location = _location;
+  Event.fromDocument(QueryDocumentSnapshot snapshot) {
+    description = snapshot.get("description");
+    type = snapshot.get("type");
+    user = snapshot.get("user");
+    dateTime = snapshot.get("date-time").toDate();
+    location = snapshot.get("location");
   }
 }
