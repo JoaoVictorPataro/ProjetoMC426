@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:safe_neighborhood/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -71,6 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (text) {
                         if (text == "" || text?.contains("@") == false) {
                           return "E-mail inválido";
+                        } else {
+                          return null;
                         }
                       },
                     ),
@@ -84,7 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       obscureText: true,
                       validator: (text) {
-                        if (text == "") return "Senha inválida";
+                        if (text == "") {
+                          return "Senha inválida";
+                          } else {
+                            return null;
+                          }
                       },
                     ),
                     Align(

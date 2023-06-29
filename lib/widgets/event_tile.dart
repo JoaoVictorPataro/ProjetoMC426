@@ -32,7 +32,7 @@ class EventTile extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
-                  child: Text("${DateFormat("dd/MM/yyyy").format(event.dateTime)}",
+                  child: Text(DateFormat("dd/MM/yyyy").format(event.dateTime),
                     style: const TextStyle(
                       fontSize: 18.0,
                     ),

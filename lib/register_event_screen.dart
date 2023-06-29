@@ -31,6 +31,20 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
   final Set<Marker> _markers = {};
   GeoPoint? _gp;
 
+  String resolvePeriod() {
+    int hour = _dateTime.hour;
+    if (hour >= 0 && hour < 6) {
+      return "Madrugada";
+    }
+    if (hour >= 6 && hour < 12) {
+      return "Manhã";
+    }
+    if (hour >= 12 && hour < 18) {
+      return "Tarde";
+    }
+    return "Noite";
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -163,8 +177,9 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                                       "type": _currentSelectedValue,
                                       "user": docs.collection('users').doc(
                                           model.firebaseUser?.uid ?? ""),
-                                      "date-time": _dateTime,
+                                      "dateTime": _dateTime,
                                       "location": _gp,
+                                      "period": resolvePeriod()
                                     });
                                     _onSuccess();
                                   } catch (error) {

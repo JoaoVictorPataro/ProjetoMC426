@@ -34,7 +34,7 @@ class DrawerTile extends StatelessWidget {
           ),
         ),
         onTap: () {
-          navigatorKey?.currentState?.pop();
+          navigatorKey.currentState?.pop();
           pageController.jumpToPage(page);
         },
       ),
