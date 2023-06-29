@@ -1,5 +1,5 @@
-# ProjetoMC426
-O projeto em questão tem como objetivo fazer um sistema de consulta sobre os dados de segurança de Barão Geraldo, exibindo um mapa, centrado no usuário, que mostra zonas mais e menos seguras, bem como estatísticas de lugares e horários com maior e menor segurança.
+# Safe Neighborhood
+O projeto em questão tem como objetivo fazer um aplicativo mobile de segurança para consultar dados de possíveis ocorrências e relatos, levando em consideração a localização do usuário. Para isso, exibe um mapa que mostra zonas mais e menos seguras, bem como uma listagem de ocorrências e também estatísticas de lugares e horários com maior e menor segurança.
 
 
 **Integrantes:**
