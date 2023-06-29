@@ -42,31 +42,36 @@ class SimpleMapState extends State<SimpleMap> {
 
   Future<void> _loadData() async {
     int i = 0;
+    GeoPoint location;
+    // inicia instância do Firebase e recupera os dados
     await FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
       querySnapshot.docs.forEach((element) {
-        Event e = Event.fromDocument(element);
-
+        // lê eventos do banco de dados e adiciona eles na lista de areas circulares
+        location = element.get("location");
         circleList.add(Circle(
-          circleId: CircleId(i.toString()),
-          center: LatLng(e.location.latitude, e.location.longitude),
-          radius: 600,
-          fillColor: const Color.fromARGB(25, 255, 0, 0),
-          strokeWidth: 0
+            circleId: CircleId(i.toString()),
+            center: LatLng(location.latitude, location.longitude), // novamente, considerando a latitude e longitude dos eventos ocorridos
+            radius: 600,
+            fillColor: Color.fromARGB(25, 255, 0, 0)
         ));
 
+        // ao mesmo tempo, adiciona marcadores na lista de marcadores
         markerList.add(Marker(
-          markerId: MarkerId(i.toString()),
-          position: LatLng(e.location.latitude, e.location.longitude),
-          infoWindow: InfoWindow(title: e.description),
+            markerId: MarkerId(i.toString()),
+            position: LatLng(location.latitude, location.longitude), // novamente, considerando a latitude e longitude dos eventos ocorridos
+            infoWindow: InfoWindow(title: element.get("description")),
 
-          onTap: (){
-            navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
-          }
+            onTap: (){
+
+            }
         ));
 
+        // ao final somamos 1 no indice de areas circulares e marcadores
         i += 1;
       })
     });
+
+    //ao final do metodo todos os dados estao carregados nas listas, que serao passadas para o mapa como parametros para que sejam desenhadas no mapa
   }
 
   @override
