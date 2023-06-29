@@ -37,10 +37,41 @@ class SimpleMapState extends State<SimpleMap> {
     ));
   }
 
+  Set<Circle> Circles() {
+    return {
+      Circle(
+          circleId: CircleId("circle_1"),
+          center: LatLng(-22.9064, -47.0616), // novamente, considerando a latitude e longitude dos eventos ocorridos
+          radius: 600,
+          fillColor: Color.fromARGB(25, 255, 0, 0)
+      ),
+      Circle(
+          circleId: CircleId("circle_2"),
+          center: LatLng(-22.9062, -47.0616), // novamente, considerando a latitude e longitude dos eventos ocorridos
+          radius: 600,
+          fillColor: Color.fromARGB(25, 255, 0, 0)
+      ),
+    };
+  }
+
+  Set<Marker> Markers() {
+    return {
+      Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(-22.9064, -47.0616),
+        infoWindow: InfoWindow(title: "Title of my ocurence"),
+      ),
+      Marker(
+        markerId: MarkerId("2"),
+        position: LatLng(-22.9062, -47.0616),
+      ),
+    };
+  }
+
   Set<Circle> circleList = {};
   Set<Marker> markerList = {};
 
-  Future<void> _loadData() async {
+  Future<void> _readFirebaseEventsAndCreateLists() async {
     int i = 0;
     GeoPoint location;
     // inicia instância do Firebase e recupera os dados
@@ -79,7 +110,7 @@ class SimpleMapState extends State<SimpleMap> {
     return Stack(
       children: <Widget>[
         FutureBuilder(
-          future: _loadData(),
+          future: _readFirebaseEventsAndCreateLists(),
           builder: (context, snapshot) {
             return GoogleMap(
               mapType: MapType.normal,
