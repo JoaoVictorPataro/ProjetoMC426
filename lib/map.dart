@@ -46,21 +46,23 @@ class SimpleMapState extends State<SimpleMap> {
         Event e = Event.fromDocument(element);
 
         circleList.add(Circle(
-          circleId: CircleId(i.toString()),
-          center: LatLng(e.location.latitude, e.location.longitude),
-          radius: 600,
-          fillColor: const Color.fromARGB(25, 255, 0, 0),
-          strokeWidth: 0
+            circleId: CircleId(i.toString()),
+            center: LatLng(e.location.latitude, e.location.longitude),
+            radius: 600,
+            fillColor: const Color.fromARGB(25, 255, 0, 0),
+            strokeWidth: 0
         ));
 
         markerList.add(Marker(
-          markerId: MarkerId(i.toString()),
-          position: LatLng(e.location.latitude, e.location.longitude),
-          infoWindow: InfoWindow(title: e.description),
+            markerId: MarkerId(i.toString()),
+            position: LatLng(e.location.latitude, e.location.longitude),
+            infoWindow: InfoWindow(title: e.description),
 
-          onTap: (){
-            navigatorKey.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
-          }
+
+            onTap: (){
+              navigatorKey.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
+            }
+
         ));
 
         i += 1;
