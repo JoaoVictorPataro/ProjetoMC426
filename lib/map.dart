@@ -60,7 +60,7 @@ class SimpleMapState extends State<SimpleMap> {
           infoWindow: InfoWindow(title: e.description),
 
           onTap: (){
-            navigatorKey?.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
+            navigatorKey.currentState?.push(MaterialPageRoute(builder: (_) => EventScreen(e)));
           }
         ));
 

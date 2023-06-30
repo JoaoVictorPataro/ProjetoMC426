@@ -79,12 +79,12 @@ class UserModel extends Model {
     return firebaseUser != null;
   }
 
-  Future<Null> _saveUserData(Map<String, dynamic> userData) async {
+  Future<void> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
     await FirebaseFirestore.instance.collection("users").doc(firebaseUser?.uid).set(userData);
   }
 
-  Future<Null> _loadCurrentUser() async {
+  Future<void> _loadCurrentUser() async {
     // tenta obter usuario logado no momento
     firebaseUser = await _auth.currentUser;
 

@@ -71,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   if (!model.isLoggedIn()) {
-                                    navigatorKey?.currentState?.pop();
+                                    navigatorKey.currentState?.pop();
                                     navigatorKey.currentState?.push(
                                         MaterialPageRoute(builder: (
                                             _) => const LoginScreen()));
@@ -96,9 +96,8 @@ class CustomDrawer extends StatelessWidget {
               ),
               DrawerTile(icon: Icons.map, text: "Mapa", pageController: pageController, page: 0,),
               DrawerTile(icon: Icons.add, text: "Cadastrar Ocorrência", pageController: pageController, page: 1,),
-              DrawerTile(icon: Icons.list, text: "Feed", pageController: pageController, page: 2,),
-              DrawerTile(icon: Icons.query_stats, text: "Estatísticas", pageController: pageController, page: 3,)
-            ],
+              DrawerTile(icon: Icons.list, text: "Feed", pageController: pageController, page: 2,)
+              ],
           ),
         ],
       ),

@@ -45,14 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: const FeedHistoryScreen(),
           drawer: CustomDrawer(pageController: _pageController),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Estatísticas'),
-          ),
-          body: Container(),
-          drawer: CustomDrawer(pageController: _pageController),
         )
       ],
     );
