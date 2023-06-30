@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:safe_neighborhood/event_screen.dart';
 import 'package:safe_neighborhood/main.dart';
 import 'package:safe_neighborhood/models/Event.dart';
+import 'package:safe_neighborhood/models/event_model.dart';
 
 class SimpleMap extends StatefulWidget {
   const SimpleMap({Key? key}) : super(key: key);
@@ -27,13 +28,12 @@ class SimpleMapState extends State<SimpleMap> {
   }
 
   void _currentLocation() async {
-    LocationData currentLocation;
-    var location = Location();
+    Position currentLocation;
 
-    currentLocation = await location.getLocation();
+    currentLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     _controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(bearing: 0, target: LatLng(currentLocation.latitude!, currentLocation.longitude!), zoom: 15.0),
+      CameraPosition(bearing: 0, target: LatLng(currentLocation.latitude, currentLocation.longitude), zoom: 15.0),
     ));
   }
 
@@ -42,8 +42,7 @@ class SimpleMapState extends State<SimpleMap> {
 
   Future<void> _loadData() async {
     int i = 0;
-    await FirebaseFirestore.instance.collection("events").get().then((querySnapshot) => {
-      querySnapshot.docs.forEach((element) {
+    for (var element in (await EventModel.getData())) {
         Event e = Event.fromDocument(element);
 
         circleList.add(Circle(
@@ -65,8 +64,7 @@ class SimpleMapState extends State<SimpleMap> {
         ));
 
         i += 1;
-      })
-    });
+    }
   }
 
   @override

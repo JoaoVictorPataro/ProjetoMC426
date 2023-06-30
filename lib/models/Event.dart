@@ -10,6 +10,9 @@ class Event {
   late GeoPoint location;
   late String period;
 
+  Event.fromData(this.description, this.type, this.user,
+    this.dateTime, this.location, this.period);
+
   Event();
 
   bool checkRange(DateTimeRange range) {
@@ -28,10 +31,6 @@ class Event {
     user = snapshot.get("user");
     dateTime = snapshot.get("dateTime").toDate();
     location = snapshot.get("location");
-    try {
     period = snapshot.get("period");
-    } catch(e) {
-      period = "Nao definido";
-    }
   }
 }
