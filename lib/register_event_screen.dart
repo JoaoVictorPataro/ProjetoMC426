@@ -1,13 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/login_screen.dart';
+import 'package:safe_neighborhood/utils/utils.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'models/Event.dart';
+import 'models/event_model.dart';
 
 class RegisterEventScreen extends StatefulWidget {
   const RegisterEventScreen({Key? key}) : super(key: key);
@@ -49,7 +55,6 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                 child: ListView(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     TextFormField(
                       controller: _descriptionController,
@@ -121,6 +126,7 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                         mapType: MapType.normal,
                         initialCameraPosition: const CameraPosition(target: LatLng(-22.9064, -47.0616), zoom: 15.0, tilt: 0, bearing: 0),
                         myLocationEnabled: true,
+                        gestureRecognizers: Set()..add(Factory<EagerGestureRecognizer>(() => EagerGestureRecognizer())),
                         onTap: (LatLng latLng) {
                           _gp = GeoPoint(latLng.latitude, latLng.longitude);
                           _markers.add(Marker(markerId: const MarkerId('mark'), position: latLng));
@@ -158,14 +164,14 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                               else {
                                 if (model.isLoggedIn()) {
                                   try {
-                                    docs.collection('events').add({
-                                      "description": _descriptionController.text,
-                                      "type": _currentSelectedValue,
-                                      "user": docs.collection('users').doc(
-                                          model.firebaseUser?.uid ?? ""),
-                                      "date-time": _dateTime,
-                                      "location": _gp,
-                                    });
+                                    EventModel.saveEvent(Event.fromData(
+                                      _descriptionController.text,
+                                      _currentSelectedValue,
+                                      model.getUserReference(),
+                                      _dateTime,
+                                      _gp!,
+                                      FieldUtils.resolvePeriod(_dateTime.hour)
+                                    ));
                                     _onSuccess();
                                   } catch (error) {
                                     _onFail();

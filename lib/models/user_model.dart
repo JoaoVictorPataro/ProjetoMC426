@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 class UserModel extends Model {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  static final docs = FirebaseFirestore.instance.collection("users");
   User? firebaseUser;
   Map<String, dynamic> userData = {};
 
@@ -21,6 +21,10 @@ class UserModel extends Model {
 
   static UserModel of(BuildContext context) =>
       ScopedModel.of<UserModel>(context);
+
+  DocumentReference<Map<String, dynamic>> getUserReference() {
+    return docs.doc(firebaseUser?.uid ?? "");
+  } 
 
   void signUp({required Map<String, dynamic> userData, required String password, required VoidCallback onSuccess, required VoidCallback onFail}) {
     isLoading = true;
@@ -79,21 +83,25 @@ class UserModel extends Model {
     return firebaseUser != null;
   }
 
-  Future<Null> _saveUserData(Map<String, dynamic> userData) async {
+  Future<void> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
-    await FirebaseFirestore.instance.collection("users").doc(firebaseUser?.uid).set(userData);
+    await docs.doc(firebaseUser?.uid).set(userData);
   }
 
-  Future<Null> _loadCurrentUser() async {
+
+
+  Future<void> _loadCurrentUser() async {
     // tenta obter usuario logado no momento
     firebaseUser = await _auth.currentUser;
 
     if (firebaseUser != null) {
       if (userData["name"] == null) {
-        DocumentSnapshot docUser = await FirebaseFirestore.instance.collection("users").doc(firebaseUser?.uid).get();
+        DocumentSnapshot docUser = await docs.doc(firebaseUser?.uid).get();
         userData = docUser.data() as Map<String, dynamic>;
       }
     }
     notifyListeners();
   }
+
+
 }
