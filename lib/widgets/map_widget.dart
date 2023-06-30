@@ -20,7 +20,6 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // initialize loadData method
     _loadEvents();
