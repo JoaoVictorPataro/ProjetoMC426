@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safe_neighborhood/home_screen.dart';
 import 'package:safe_neighborhood/login_screen.dart';
+import 'package:safe_neighborhood/models/utils.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
@@ -30,20 +31,6 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
 
   final Set<Marker> _markers = {};
   GeoPoint? _gp;
-
-  String resolvePeriod() {
-    int hour = _dateTime.hour;
-    if (hour >= 0 && hour < 6) {
-      return "Madrugada";
-    }
-    if (hour >= 6 && hour < 12) {
-      return "Manhã";
-    }
-    if (hour >= 12 && hour < 18) {
-      return "Tarde";
-    }
-    return "Noite";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +166,7 @@ class _RegisterEventScreenState extends State<RegisterEventScreen> {
                                           model.firebaseUser?.uid ?? ""),
                                       "dateTime": _dateTime,
                                       "location": _gp,
-                                      "period": resolvePeriod()
+                                      "period": Utils.resolvePeriod(_dateTime)
                                     });
                                     _onSuccess();
                                   } catch (error) {
