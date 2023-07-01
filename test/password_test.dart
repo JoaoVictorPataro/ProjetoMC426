@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:safe_neighborhood/models/Validator.dart';
+import 'package:safe_neighborhood/models/validator.dart';
 
 void main() {
   group("Password test", () {
