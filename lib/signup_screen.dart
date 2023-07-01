@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safe_neighborhood/login_screen.dart';
+import 'package:safe_neighborhood/models/validator.dart';
 import 'package:safe_neighborhood/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:safe_neighborhood/main.dart';
@@ -98,7 +99,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       obscureText: true,
                       validator: (text) {
-                        if (text == "") return "Senha inválida";
+                        if (!Validator.validatePass(text!)) {
+                          return "Senha inválida";
+                        }
                       },
                     ),
                     const SizedBox(
